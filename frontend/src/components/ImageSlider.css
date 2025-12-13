@@ -1,0 +1,21 @@
+/* src/components/ImageSlider.css */
+.slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 10px;
+}
+.slide {
+  flex: none;
+  width: 100%;
+  max-width: 800px;
+  scroll-snap-align: start;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
