@@ -4,12 +4,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // 🌐 Pages
-import LandingPage from "./pages/landingPage";
-import ProductCatalogPage from "./pages/ProductCatalogPage";
-import CategoryPage from "./pages/CategoryPage";
-import UserDashboard from "./pages/UserDashboard";
-import Login from "./pages/SignIn";
-import Register from "./pages/SignUp";
+import LandingPage from "./pages/landingPage.jsx";
+import ProductCatalogPage from "./pages/ProductCatalogPage.jsx";
+import CategoryPage from "./pages/CategoryPage.jsx";
+import UserDashboard from "./pages/UserDashboard.jsx";
+import Login from "./pages/SignIn.jsx";
+import Register from "./pages/SignUp.jsx";
 
 // 🔒 Auth
 import { AuthProvider } from "./context/AuthContext";
