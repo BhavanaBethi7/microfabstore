@@ -12,9 +12,9 @@ import Login from "./pages/SignIn.jsx";
 import Register from "./pages/SignUp.jsx";
 
 // 🔒 Auth
-import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminUpload from "./components/AdminUploads";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AdminUpload from "./components/AdminUploads.jsx";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
