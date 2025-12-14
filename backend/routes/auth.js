@@ -1,7 +1,7 @@
 // backend/routes/auth.js
 import { Router } from 'express';
 const router = Router();
-import User from '../models/user.js';
+import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
