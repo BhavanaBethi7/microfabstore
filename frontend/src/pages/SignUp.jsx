@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthNavbar from "../components/AuthNavBar";
-import { registerUser } from "../services/authService";
+//import { registerUser } from "../services/authService";//
 import "./auth.css";
 
 export default function SignUp() {

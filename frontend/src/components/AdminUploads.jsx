@@ -1,6 +1,6 @@
 // src/components/AdminUpload.jsx
 import React, { useState } from "react";
-import API from "../services/api";
+import API from "../api";
 
 const AdminUpload = () => {
   const [image, setImage] = useState(null);

@@ -1,6 +1,6 @@
 // src/pages/ProductUploadForm.jsx
 import React, { useState } from "react";
-import API from "../services/api";
+import API from "../api";
 import "./ProductUploadForm.css";
 
 const ProductUploadForm = () => {

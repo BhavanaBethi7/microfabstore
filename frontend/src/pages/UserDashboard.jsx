@@ -1,7 +1,7 @@
 // src/pages/UserDashboard.jsx
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../services/api";
+import API from "../api";
 import { AuthContext } from "../context/AuthContext";
 import "./UserDashboard.css";
 
