@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import Navbar from "../components/NavBar";
-import API from "../services/api";
+import API from "../api";
 
 const ProductCatalogPage = ({ addToCart }) => {
   const { categorySlug } = useParams();
