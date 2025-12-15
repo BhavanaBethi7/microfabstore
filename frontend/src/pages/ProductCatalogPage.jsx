@@ -1,30 +1,54 @@
 // src/pages/ProductCatalogPage.jsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import ProductCard from "../components/ProductCard";
+import { useParams, Link } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import API from "../api";
+import "./ProductCatalogPage.css";
 
-const ProductCatalogPage = ({ addToCart }) => {
+// 🔧 Normalize category → URL-safe slug
+const normalizeCategory = (str = "") =>
+  str
+    .toLowerCase()
+    .replace(/&/g, "")            // remove &
+    .replace(/[^a-z0-9]+/g, "-")  // replace spaces & symbols with -
+    .replace(/^-|-$/g, "");       // trim leading/trailing -
+
+export default function ProductCatalogPage() {
   const { categorySlug } = useParams();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!categorySlug) return;
-
     const fetchProducts = async () => {
-      setLoading(true);
-      setError("");
-
       try {
-        const encoded = encodeURIComponent(categorySlug);
-        const res = await API.get(`/products/category/${encoded}`);
-        setProducts(res.data);
-      } catch (err) {
-        console.error("❌ Error fetching products:", err);
-        setError("Failed to load products from server.");
+        const res = await API.get("/products");
+
+        // 🔒 Ensure we always work with an array
+        const allProducts = Array.isArray(res.data)
+          ? res.data
+          : res.data?.products || [];
+
+        console.log("ALL PRODUCTS:", allProducts);
+
+        // 🔍 Debug category matching
+        allProducts.forEach((p) => {
+          console.log(
+            "DB:", p.category,
+            "→", normalizeCategory(p.category),
+            "| URL:", categorySlug
+          );
+        });
+
+        const filtered = allProducts.filter(
+          (p) =>
+            p.category &&
+            normalizeCategory(p.category) === categorySlug
+        );
+
+        setProducts(filtered);
+      } catch (error) {
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
@@ -33,45 +57,52 @@ const ProductCatalogPage = ({ addToCart }) => {
     fetchProducts();
   }, [categorySlug]);
 
-  if (loading) {
-    return (
-      <div className="loading">
-        <p>Loading products...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="error">
-        <p>{error}</p>
-      </div>
-    );
-  }
-
   return (
     <>
       <Navbar />
 
-      <div className="catalog-container">
-        <h2 className="category-title">
-          {categorySlug ? categorySlug.replace(/-/g, " ") : "Products"}
-        </h2>
+      <div className="page-content">
+        {/* Category Title */}
+        <h1 className="category-title">
+          {categorySlug.replace(/-/g, " ").toUpperCase()}
+        </h1>
 
-        <div className="product-grid">
-          {products.length > 0 ? (
-            products.map((p) => (
-              <ProductCard key={p._id} product={p} addToCart={addToCart} />
-            ))
-          ) : (
-            <p className="empty-text">
-              No products available in this category.
-            </p>
-          )}
-        </div>
+        {/* Loading */}
+        {loading && (
+          <p className="status-text">Loading products...</p>
+        )}
+
+        {/* Products */}
+        {!loading && products.length > 0 && (
+          <div className="product-grid">
+            {products.map((product) => (
+              <Link
+                key={product._id}
+                to={`/product/${product._id}`}
+                className="product-card"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="product-image"
+                  onError={(e) =>
+                    (e.target.src = "/placeholder.png")
+                  }
+                />
+                <h3 className="product-name">{product.name}</h3>
+                <p className="product-price">₹{product.price}</p>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Empty */}
+        {!loading && products.length === 0 && (
+          <p className="status-text">
+            No products found for this category.
+          </p>
+        )}
       </div>
     </>
   );
-};
-
-export default ProductCatalogPage;
+}

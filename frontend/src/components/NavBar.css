@@ -1,4 +1,6 @@
-/* === NAVBAR CORE STYLING === */
+/* =========================
+   NAVBAR CORE
+========================= */
 .navbar {
   position: fixed;
   top: 0;
@@ -13,25 +15,24 @@
   z-index: 1000;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
-  transition: background 0.4s ease, box-shadow 0.3s ease;
 }
 
-/* Subtle hover glow for nav bar when scrolling */
+/* Hover glow */
 .navbar:hover {
   box-shadow: 0 6px 20px rgba(218, 165, 32, 0.25);
 }
 
-/* === LOGO === */
+/* =========================
+   LOGO
+========================= */
 .navbar-left {
-  flex: 0 0 auto;
+  flex-shrink: 0;
 }
 
 .logo-img {
   height: 48px;
-  width: auto;
-  object-fit: contain;
-  transition: transform 0.3s ease, filter 0.3s ease;
   cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .logo-img:hover {
@@ -39,7 +40,9 @@
   filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.6));
 }
 
-/* === NAV LINKS === */
+/* =========================
+   CENTER NAV LINKS
+========================= */
 .navbar-center {
   flex: 1;
   display: flex;
@@ -48,9 +51,9 @@
 }
 
 .nav-links {
+  list-style: none;
   display: flex;
   gap: 28px;
-  list-style: none;
   margin: 0;
   padding: 0;
 }
@@ -58,29 +61,22 @@
 .nav-links a {
   color: #e6e6e6;
   text-decoration: none;
-  font-weight: 500;
   font-size: 1rem;
+  font-weight: 500;
   position: relative;
-  transition: all 0.3s ease;
-  letter-spacing: 0.4px;
-  padding: 4px 0;
+  padding-bottom: 4px;
+  transition: color 0.3s ease;
 }
 
 .nav-links a::after {
   content: "";
   position: absolute;
+  left: 0;
+  bottom: 0;
   width: 0%;
   height: 2px;
-  bottom: 0;
-  left: 0;
   background: goldenrod;
   transition: width 0.3s ease;
-  border-radius: 2px;
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
-  width: 100%;
 }
 
 .nav-links a:hover,
@@ -88,10 +84,16 @@
   color: goldenrod;
 }
 
-/* === AUTH BUTTONS === */
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* =========================
+   AUTH BUTTONS
+========================= */
 .navbar-right {
   display: flex;
-  align-items: center;
   gap: 12px;
 }
 
@@ -100,75 +102,88 @@
   border: 1px solid goldenrod;
   border-radius: 8px;
   color: goldenrod;
+  font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  font-size: 0.9rem;
   transition: all 0.3s ease;
-  white-space: nowrap;
 }
 
 .auth-btn:hover {
-  background-color: goldenrod;
+  background: goldenrod;
   color: #000;
-  box-shadow: 0 0 10px rgba(218, 165, 32, 0.4);
 }
 
 .auth-btn.filled {
-  background-color: goldenrod;
+  background: goldenrod;
   color: #000;
 }
 
-.auth-btn.filled:hover {
-  background-color: #f5deb3;
+/* =========================
+   HAMBURGER (DEFAULT)
+========================= */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  color: goldenrod;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-/* === RESPONSIVE DESIGN === */
-@media (max-width: 1100px) {
-  .navbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 12px 25px;
-    gap: 10px;
+/* =========================
+   DESKTOP / TABLET
+========================= */
+.desktop-auth {
+  display: flex;
+}
+
+.mobile-auth {
+  display: none;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  /* Hide desktop auth */
+  .desktop-auth {
+    display: none;
   }
 
+  /* Show hamburger */
+  .hamburger {
+    display: block;
+  }
+
+  /* Dropdown menu container */
   .navbar-center {
-    order: 3;
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
     width: 100%;
-    justify-content: center;
-    margin-top: 10px;
+    background: #000;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    z-index: 999;
+  }
+
+  /* Toggle open */
+  .navbar-center.open {
+    display: flex;
   }
 
   .nav-links {
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 16px;
   }
 
-  .auth-btn {
-    padding: 6px 14px;
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 700px) {
-  .nav-links {
-    display: none; /* optional: can replace with a hamburger menu later */
-  }
-
-  .navbar-right {
-    margin-left: auto;
-  }
-
-  .logo-img {
-    height: 42px;
-  }
-}
-
-/* Optional small hover animation */
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 5px rgba(218, 165, 32, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
+  /* Mobile auth inside menu */
+  .mobile-auth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
   }
 }

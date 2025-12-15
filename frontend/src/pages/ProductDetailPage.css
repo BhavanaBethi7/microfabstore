@@ -1,0 +1,153 @@
+/* =========================
+   PAGE WRAPPER
+========================= */
+.product-detail-page {
+  margin-top: 90px; /* offset for fixed navbar */
+  padding: 40px 60px;
+  min-height: 100vh;
+  background: #0b0b0b;
+  color: #f5f5f5;
+}
+
+/* =========================
+   STATUS TEXT
+========================= */
+.status-text {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.product-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* =========================
+   IMAGE SECTION
+========================= */
+.product-image-wrapper {
+  background: linear-gradient(145deg, #111, #1c1c1c);
+  border-radius: 18px;
+  padding: 30px;
+  border: 1px solid rgba(218, 165, 32, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image-wrapper img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.product-image-wrapper:hover img {
+  transform: scale(1.05);
+}
+
+/* =========================
+   PRODUCT INFO
+========================= */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.product-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: goldenrod;
+  letter-spacing: 0.5px;
+}
+
+.product-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f5deb3;
+}
+
+.product-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #ddd;
+}
+
+/* =========================
+   SPECIFICATIONS
+========================= */
+.product-specs {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 215, 0, 0.25);
+}
+
+.product-specs h3 {
+  color: goldenrod;
+  margin-bottom: 12px;
+}
+
+.product-specs ul {
+  list-style: none;
+  padding: 0;
+}
+
+.product-specs li {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+/* =========================
+   ADD TO CART BUTTON
+========================= */
+.add-to-cart-btn {
+  margin-top: 30px;
+  padding: 14px 36px;
+  background: goldenrod;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #f5deb3;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(218, 165, 32, 0.35);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+  .product-detail-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .product-detail-page {
+    padding: 30px 24px;
+  }
+
+  .product-title {
+    font-size: 2rem;
+  }
+
+  .product-price {
+    font-size: 1.4rem;
+  }
+}

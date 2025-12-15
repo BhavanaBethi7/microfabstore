@@ -94,9 +94,9 @@ export default function LandingPage() {
                 <div className="hero-content">
                   <h1 className="hero-title">{slide.title}</h1>
                   <p className="hero-subtitle">{slide.subtitle}</p>
-                  <Link to="/categories">
-                    <button className="hero-button">Shop Now</button>
-                  </Link>
+                 <Link to="/categories" className="cta-button">
+          Shop Now
+        </Link>
                 </div>
               </div>
             ))}
