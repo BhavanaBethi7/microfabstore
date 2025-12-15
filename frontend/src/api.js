@@ -1,17 +1,21 @@
-// frontend/src/api.js
-import axios from 'axios';
+// src/services/api.js
+import axios from "axios";
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
+  withCredentials: true,
 });
 
-// Attach token to each request
-API.interceptors.request.use((req) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (user?.token) {
-    req.headers.Authorization = `Bearer ${user.token}`;
-  }
-  return req;
-});
+// Attach token to every request
+API.interceptors.request.use(
+  (req) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      req.headers.Authorization = `Bearer ${token}`;
+    }
+    return req;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default API;

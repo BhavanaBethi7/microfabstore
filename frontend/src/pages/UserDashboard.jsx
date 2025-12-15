@@ -1,30 +1,28 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+// src/pages/UserDashboard.jsx
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 import "./UserDashboard.css";
 
 const UserDashboard = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/login");
-        return;
-      }
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get("/auth/profile");
         setUser(res.data);
       } catch (err) {
         console.error(err);
         setError("Failed to load profile");
-        if (err.response && err.response.status === 401) {
+        if (err.response?.status === 401) {
+          logout();
           navigate("/login");
         }
       } finally {
@@ -33,10 +31,16 @@ const UserDashboard = () => {
     };
 
     fetchProfile();
-  }, [navigate]);
+  }, [logout, navigate]);
 
-  if (loading) return <div className="dashboard-loading">Loading...</div>;
-  if (error) return <div className="dashboard-error">{error}</div>;
+  if (loading) {
+    return <div className="dashboard-loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="dashboard-error">{error}</div>;
+  }
+
   if (!user) return null;
 
   return (
@@ -46,7 +50,7 @@ const UserDashboard = () => {
         <button
           className="logout-btn"
           onClick={() => {
-            localStorage.removeItem("token");
+            logout();
             navigate("/login");
           }}
         >

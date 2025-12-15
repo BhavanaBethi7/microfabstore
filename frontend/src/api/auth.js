@@ -1,16 +1,27 @@
-import API from './api';
+// src/services/authService.js
+import API from "./api";
 
+// 📝 Register
 export const registerUser = async (userData) => {
-  const res = await API.post('/auth/register', userData);
-  return res.data;
+  try {
+    const res = await API.post("/auth/register", userData);
+    return res.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Registration failed" };
+  }
 };
 
+// 🔐 Login
 export const loginUser = async (userData) => {
-  const res = await API.post('/auth/login', userData);
-  return res.data;
+  try {
+    const res = await API.post("/auth/login", userData);
+    return res.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Login failed" };
+  }
 };
 
-export const logoutUser = async () => {
-  const res = await API.post('/auth/logout');
-  return res.data;
+// 🚪 Logout (FRONTEND ONLY)
+export const logoutUser = () => {
+  localStorage.removeItem("token");
 };

@@ -1,14 +1,18 @@
-// src/context/AuthContext.js
+// src/context/AuthContext.jsx
 import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) setUser({ token });
+    if (token) {
+      setUser({ token });
+    }
   }, []);
 
   const login = (token) => {
@@ -22,7 +26,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        API_BASE_URL, // 👈 exposed globally
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,17 +1,22 @@
+// src/pages/SignUp.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthNavbar from "../components/AuthNavBar";
+import { registerUser } from "../services/authService";
 import "./auth.css";
 
 export default function SignUp() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     username: "",
     password: "",
     confirmPassword: "",
   });
+
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -22,40 +27,32 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
     const { email, username, password, confirmPassword } = formData;
 
     if (!email || !username || !password || !confirmPassword) {
-      alert("⚠️ Please fill in all fields");
+      setError("Please fill in all fields");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("⚠️ Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: username, // ✅ backend expects `name`, not `username`
-          email,
-          password,
-        }),
+      await registerUser({
+        name: username, // backend expects `name`
+        email,
+        password,
       });
 
-      const data = await res.json();
-      if (res.ok) {
-        alert("✅ Signup successful! Redirecting to login...");
-        navigate("/login");
-      } else {
-        alert(`❌ ${data.msg || "Signup failed!"}`);
-      }
+      alert("✅ Signup successful! Redirecting to login...");
+      navigate("/login");
     } catch (err) {
-      console.error("Signup error:", err);
-      alert("❌ Something went wrong. Please try again later.");
+      setError(err.message || "Signup failed");
     } finally {
       setLoading(false);
     }
@@ -64,6 +61,7 @@ export default function SignUp() {
   return (
     <>
       <AuthNavbar />
+
       <div className="auth-page-bg">
         <div className="auth-page">
           <div className="auth-card">
@@ -133,6 +131,8 @@ export default function SignUp() {
                   </button>
                 </div>
               </form>
+
+              {error && <p style={{ color: "red" }}>{error}</p>}
 
               <div className="auth-bottom-text">
                 Already have an account?&nbsp;

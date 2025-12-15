@@ -1,7 +1,11 @@
+// src/pages/CategoryPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/NavBar";
+import API from "../services/api";
 import "./ProductCatalogPage.css";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function CategoryPage() {
   const { categorySlug } = useParams();
@@ -9,13 +13,11 @@ export default function CategoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/products");
-        const data = await res.json();
-        console.log("All products from API:", data);
+        const res = await API.get("/products");
+        const data = res.data;
 
-        // ✅ Filter products matching the current category
         const filtered = data.filter(
           (p) =>
             p.category?.toLowerCase().replace(/\s+/g, "-") ===
@@ -28,13 +30,15 @@ export default function CategoryPage() {
       } finally {
         setLoading(false);
       }
-    }
+    };
+
     fetchProducts();
   }, [categorySlug]);
 
   return (
     <>
       <Navbar />
+
       <div className="category-detail-page">
         <h1 className="category-title">
           {categorySlug.replace(/-/g, " ").toUpperCase()}
@@ -46,9 +50,8 @@ export default function CategoryPage() {
           <div className="product-grid">
             {products.map((p) => (
               <div key={p._id} className="product-card">
-                {/* ✅ Fixed image display */}
                 <img
-                  src={`http://localhost:5000/${p.image}`}
+                  src={`${API_BASE_URL}/${p.image}`}
                   alt={p.name}
                   onError={(e) => (e.target.src = "/placeholder.png")}
                   style={{
@@ -58,6 +61,7 @@ export default function CategoryPage() {
                     borderRadius: "10px",
                   }}
                 />
+
                 <h3>{p.name}</h3>
                 <p>₹{p.price}</p>
                 <p>{p.description}</p>

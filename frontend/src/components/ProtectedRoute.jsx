@@ -1,15 +1,15 @@
-import React from "react";
+// src/components/ProtectedRoute.jsx
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const { user } = useContext(AuthContext);
 
-  if (!token) {
-    // Not logged in - redirect to login
+  if (!user || !user.token) {
     return <Navigate to="/login" replace />;
   }
 
-  // Logged in - show the child component
   return children;
 };
 

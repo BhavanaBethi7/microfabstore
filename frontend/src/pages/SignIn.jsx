@@ -1,42 +1,39 @@
-import React, { useState } from "react";
+// src/pages/SignIn.jsx
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import AuthNavbar from "../components/AuthNavBar";
+import { loginUser } from "../services/authService";
+import { AuthContext } from "../context/AuthContext";
 import "./auth.css";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const data = await loginUser({ email, password });
 
-      if (res.data.token) {
-        // ✅ Save token
-        localStorage.setItem("token", res.data.token);
+      // ✅ update global auth state
+      login(data.token);
 
-        // ✅ Redirect to dashboard
-        navigate("/dashboard");
-      } else {
-        setError("Login failed. Please try again.");
-      }
+      navigate("/dashboard");
     } catch (err) {
-      console.error(err);
-      setError("Invalid email or password");
+      setError(err.message || "Invalid email or password");
     }
   };
 
   return (
     <>
       <AuthNavbar />
+
       <div className="auth-page-bg">
         <div className="auth-page">
           <div className="auth-card">
