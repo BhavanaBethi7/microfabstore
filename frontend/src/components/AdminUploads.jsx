@@ -1,7 +1,7 @@
 // src/components/AdminUpload.jsx
 import React, { useState } from "react";
 import API from "../api";
-
+import { getImageUrl } from "../utils/image";
 const AdminUpload = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -53,7 +53,11 @@ const AdminUpload = () => {
       {imageUrl && (
         <div style={{ marginTop: 20 }}>
           <h4>Uploaded Image</h4>
-          <img src={imageUrl} alt="Uploaded" width="200" />
+          <img
+  src={getImageUrl(p.image)}
+  alt={p.name}
+  onError={(e) => (e.currentTarget.src = "/placeholder.png")}
+/>
           <p>{imageUrl}</p>
         </div>
       )}

@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import API from "../api";
 import "./ProductDetailPage.css";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { getImageUrl } from "../utils/image";
 
 export default function ProductDetailPage({ addToCart }) {
   const { productId } = useParams();
@@ -12,18 +11,29 @@ export default function ProductDetailPage({ addToCart }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchProduct = async () => {
       try {
         const res = await API.get(`/products/${productId}`);
-        setProduct(res.data);
+
+        if (isMounted) {
+          setProduct(res.data);
+        }
       } catch (err) {
-        console.error(err);
+        console.error("❌ Failed to fetch product:", err);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchProduct();
+
+    return () => {
+      isMounted = false;
+    };
   }, [productId]);
 
   if (loading) {
@@ -50,18 +60,31 @@ export default function ProductDetailPage({ addToCart }) {
 
       <div className="page-content product-detail-page">
         <div className="product-detail-container">
+
+          {/* ✅ IMAGE (Cloudinary + backend safe) */}
           <div className="product-image-wrapper">
             <img
-              src={`${API_BASE_URL}/${product.image}`}
-              alt={product.name}
-              onError={(e) => (e.target.src = "/placeholder.png")}
+              src={getImageUrl(product.image)}
+              alt={product.name || "Product image"}
+              className="detail-image"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src = "/placeholder.png";
+              }}
             />
           </div>
 
+          {/* ✅ PRODUCT INFO */}
           <div className="product-info">
             <h1 className="product-title">{product.name}</h1>
-            <p className="product-price">₹{product.price}</p>
-            <p className="product-description">{product.description}</p>
+
+            <p className="product-price">
+              ₹{product.price}
+            </p>
+
+            <p className="product-description">
+              {product.description || "No description available."}
+            </p>
 
             <button
               className="add-to-cart-btn"
@@ -70,6 +93,7 @@ export default function ProductDetailPage({ addToCart }) {
               Add to Cart
             </button>
           </div>
+
         </div>
       </div>
     </>
