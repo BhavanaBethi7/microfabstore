@@ -56,7 +56,7 @@ const AdminUpload = () => {
           <img
   src={getImageUrl(p.image)}
   alt={p.name}
-  onError={(e) => (e.currentTarget.src = "/placeholder.png")}
+  onError={(e) => (e.currentTarget.src = "/placeholder.jpeg")}
 />
           <p>{imageUrl}</p>
         </div>

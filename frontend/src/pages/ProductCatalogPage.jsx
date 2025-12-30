@@ -83,7 +83,7 @@ export default function ProductCatalogPage() {
                   className="product-image"
                   loading="lazy"
                   onError={(e) => {
-                    e.currentTarget.src = "/placeholder.png";
+                    e.currentTarget.src = "/placeholder.jpeg";
                   }}
                 />
 

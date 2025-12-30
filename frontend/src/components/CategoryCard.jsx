@@ -6,7 +6,7 @@ const CategoryCard = ({ image, title, onViewMore }) => {
   <img
   src={getImageUrl(image)}
   alt={title}
-  onError={(e) => (e.currentTarget.src = "/placeholder.png")}
+  onError={(e) => (e.currentTarget.src = "/placeholder.jpeg")}
 />
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col items-center p-4">

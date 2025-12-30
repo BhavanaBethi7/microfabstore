@@ -69,7 +69,7 @@ export default function ProductDetailPage({ addToCart }) {
               className="detail-image"
               loading="lazy"
               onError={(e) => {
-                e.currentTarget.src = "/placeholder.png";
+                e.currentTarget.src = "/placeholder.jpeg";
               }}
             />
           </div>
