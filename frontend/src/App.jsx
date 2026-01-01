@@ -11,6 +11,7 @@ import UserDashboard from "./pages/UserDashboard.jsx";
 import Login from "./pages/SignIn.jsx";
 import Register from "./pages/SignUp.jsx";
 import ProductDetailPage from "./pages/ProductDetailPage.jsx";
+
 // 🔒 Auth
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -40,16 +41,20 @@ function App() {
           {/* 🏠 Public */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/categories" element={<CategoryPage />} />
+
           <Route
             path="/category/:categorySlug"
             element={<ProductCatalogPage addToCart={addToCart} />}
           />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          {/* ✅ PRODUCT DETAIL (ONLY ONCE) */}
           <Route
-  path="/product/:productId"
-  element={<ProductDetailPage addToCart={addToCart} />}
-/>
+            path="/product/:productId"
+            element={<ProductDetailPage addToCart={addToCart} />}
+          />
 
           {/* 🔐 Protected */}
           <Route
@@ -60,10 +65,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-  path="/product/:productId"
-  element={<ProductDetailPage />}
-/>
+
           <Route
             path="/admin/add-product"
             element={

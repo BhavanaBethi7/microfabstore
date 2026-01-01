@@ -2,98 +2,85 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import API from "../api";
-import "./ProductDetailPage.css";
 import { getImageUrl } from "../utils/image";
+import "./ProductDetailPage.css";
 
 export default function ProductDetailPage({ addToCart }) {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
-    let isMounted = true;
-
     const fetchProduct = async () => {
-      try {
-        const res = await API.get(`/products/${productId}`);
-
-        if (isMounted) {
-          setProduct(res.data);
-        }
-      } catch (err) {
-        console.error("❌ Failed to fetch product:", err);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
+      const res = await API.get(`/products/${productId}`);
+      setProduct(res.data);
     };
-
     fetchProduct();
-
-    return () => {
-      isMounted = false;
-    };
   }, [productId]);
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <p className="status-text">Loading product...</p>
-      </>
-    );
-  }
-
-  if (!product) {
-    return (
-      <>
-        <Navbar />
-        <p className="status-text">Product not found.</p>
-      </>
-    );
-  }
+  if (!product) return null;
 
   return (
     <>
       <Navbar />
 
-      <div className="page-content product-detail-page">
-        <div className="product-detail-container">
+      <div className="product-detail-page">
+        {/* LEFT: IMAGE */}
+        <div className="pd-image">
+          <img
+            src={getImageUrl(product.image)}
+            alt={product.name}
+          />
+        </div>
 
-          {/* ✅ IMAGE (Cloudinary + backend safe) */}
-          <div className="product-image-wrapper">
-            <img
-              src={getImageUrl(product.image)}
-              alt={product.name || "Product image"}
-              className="detail-image"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src = "/placeholder.jpeg";
-              }}
-            />
-          </div>
+        {/* CENTER: INFO */}
+        <div className="pd-info">
+          <h1>{product.name}</h1>
+          <p className="brand">Brand: {product.brand}</p>
 
-          {/* ✅ PRODUCT INFO */}
-          <div className="product-info">
-            <h1 className="product-title">{product.name}</h1>
+          <h2 className="price">₹{product.price}</h2>
+          <p className="tax">Inclusive of all taxes</p>
 
-            <p className="product-price">
-              ₹{product.price}
-            </p>
+          <p className="desc">{product.description}</p>
 
-            <p className="product-description">
-              {product.description || "No description available."}
-            </p>
+          <h3>Specifications</h3>
+          <ul>
+            {product.specifications &&
+              Object.entries(product.specifications).map(([key, val]) => (
+                <li key={key}>
+                  <strong>{key}:</strong> {val}
+                </li>
+              ))}
+          </ul>
+        </div>
 
-            <button
-              className="add-to-cart-btn"
-              onClick={() => addToCart(product)}
-            >
-              Add to Cart
-            </button>
-          </div>
+        {/* RIGHT: BUY BOX */}
+        <div className="pd-buybox">
+          <h2>₹{product.price}</h2>
 
+          <p className={product.stock > 0 ? "instock" : "outstock"}>
+            {product.stock > 0 ? "In Stock" : "Out of Stock"}
+          </p>
+
+          <label>Quantity</label>
+          <select value={qty} onChange={(e) => setQty(+e.target.value)}>
+            {[...Array(5)].map((_, i) => (
+              <option key={i + 1}>{i + 1}</option>
+            ))}
+          </select>
+
+          <button
+            className="add-cart"
+            onClick={() => addToCart({ ...product, quantity: qty })}
+          >
+            Add to Cart
+          </button>
+
+          <button className="buy-now">Buy Now</button>
+
+          <p className="delivery">
+            Delivery in 3–5 business days
+          </p>
         </div>
       </div>
     </>

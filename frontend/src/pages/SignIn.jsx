@@ -5,7 +5,7 @@ import AuthNavbar from "../components/AuthNavBar";
 //import { loginUser } from "../services/authService";//
 import { AuthContext } from "../context/AuthContext";
 import "./auth.css";
-
+import Navbar from "../components/NavBar";
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +32,8 @@ export default function SignIn() {
 
   return (
     <>
-      <AuthNavbar />
+    <Navbar />
+      
 
       <div className="auth-page-bg">
         <div className="auth-page">

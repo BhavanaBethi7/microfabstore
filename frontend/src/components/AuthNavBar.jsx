@@ -8,7 +8,7 @@ const AuthNavbar = () => {
       <div className="auth-navbar-left">
         <Link to="/" className="auth-navbar-logo">
           <img 
-            src="/assets/logo.jpg" 
+            src="./assets/logo.jpg" 
             alt="MicroFabStore Logo" 
             className="auth-logo-img"
           />

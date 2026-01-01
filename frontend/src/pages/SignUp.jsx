@@ -5,6 +5,7 @@ import AuthNavbar from "../components/AuthNavBar";
 //import { registerUser } from "../services/authService";//
 import "./auth.css";
 
+
 export default function SignUp() {
   const navigate = useNavigate();
 
