@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const { hash, compare } = bcrypt;
-const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // JWT authentication middleware
 const authMiddleware = (req, res, next) => {
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     // You can also include role and name if needed
     const token = jwt.sign(
       { userId: user._id, role: user.role, name: user.name, email: user.email },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 

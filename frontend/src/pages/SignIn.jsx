@@ -1,86 +1,93 @@
-// src/pages/SignIn.jsx
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthNavbar from "../components/AuthNavBar";
-//import { loginUser } from "../services/authService";//
-import { AuthContext } from "../context/AuthContext";
-import "./auth.css";
+import { AuthContext } from "../context/AuthContext"; // ✅ ONLY THIS
 import Navbar from "../components/NavBar";
+import "./auth.css";
+
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+
+  // ✅ correct usage
+  const { login, loginUser } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("FORM SUBMITTED ✅");
+
     setError("");
+    setLoading(true);
 
     try {
       const data = await loginUser({ email, password });
 
-      // ✅ update global auth state
-      login(data.token);
+      console.log("LOGIN RESPONSE:", data);
 
-      navigate("/dashboard");
+      if (data && data.token) {
+        localStorage.setItem("token", data.token);
+        login(data.token);
+
+        // 🔥 use navigate instead of window.location
+        navigate("/profile");
+      } else {
+        setError("Login failed: No token received");
+      }
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      console.error("Login error:", err);
+
+      if (err.response?.data?.msg) {
+        setError(err.response.data.msg);
+      } else {
+        setError("Invalid email or password");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-    <Navbar />
-      
+      <Navbar />
 
       <div className="auth-page-bg">
-        <div className="auth-page">
-          <div className="auth-card">
-            <div className="auth-form-wrapper">
-              <h2 className="auth-title">Sign In</h2>
+        <div className="auth-card">
+          <h2>Sign In</h2>
 
-              <form onSubmit={handleSubmit}>
-                <label className="auth-label">
-                  Email Address
-                  <input
-                    type="email"
-                    className="auth-input"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </label>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-                <label className="auth-label">
-                  Password
-                  <input
-                    type="password"
-                    className="auth-input"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </label>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-                <button type="submit" className="auth-button">
-                  Sign In
-                </button>
-              </form>
+            <button type="submit" disabled={loading}>
+              {loading ? "Signing in..." : "Sign In"}
+            </button>
+          </form>
 
-              {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && (
+            <p style={{ color: "red", marginTop: "10px" }}>
+              {error}
+            </p>
+          )}
 
-              <div className="auth-bottom-text">
-                Don’t have an account?&nbsp;
-                <Link to="/register" className="auth-link">
-                  Sign Up
-                </Link>
-              </div>
-            </div>
-          </div>
+          <Link to="/register">
+            Don’t have an account? Sign Up
+          </Link>
         </div>
       </div>
     </>

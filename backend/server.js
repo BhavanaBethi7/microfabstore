@@ -10,7 +10,9 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/order.js";
-
+import ownerRoutes from "./routes/ownerRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import userRoutes from "./routes/UserRoutes.js";
 const app = express();
 
 // ES module dirname fix
@@ -22,6 +24,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",          // Vite
+      "http://localhost:5174",          // Vite (alternative port)
       "http://localhost:3000",
       "https://microfabstore.vercel.app",
       "https://microfabstore.onrender.com",
@@ -29,7 +32,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("/api/users", userRoutes);
 // Middleware
 app.use(express.json());
 
@@ -49,6 +52,8 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/owner", ownerRoutes);
+app.use("/api/cart", cartRoutes);
 
 // Health check
 app.get("/", (req, res) => {

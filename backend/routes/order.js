@@ -1,4 +1,3 @@
-// backend/routes/orderRoutes.js
 import express from 'express';
 import { createOrder, getMyOrders } from '../controllers/orderController.js';
 import { protect } from '../middleware/authMiddleware.js';

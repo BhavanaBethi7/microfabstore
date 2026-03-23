@@ -126,9 +126,12 @@ export default function LandingPage() {
             {sampleProducts.map((product, index) => (
               <div className="product-card" key={index}>
                 <img
-  src={`${import.meta.env.VITE_API_BASE_URL}${product.image}`}
+  src={product.image}
   alt={product.name}
   className="product-image"
+  onError={(e) => {
+    e.target.src = '/placeholder.jpg'; // fallback image
+  }}
 />
 
                 <div className="product-name">{product.name}</div>

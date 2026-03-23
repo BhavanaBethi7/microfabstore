@@ -1,34 +1,33 @@
+import jwt from "jsonwebtoken";
 
-// backend/middleware/authMiddleware.js
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+export const protect = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
 
-export const protect = async (req, res, next) => {
-  let token;
-
-  // Check for token in Authorization header
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    try {
-      // Get token
-      token = req.headers.authorization.split(' ')[1];
-
-      // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      // Attach user (without password) to request
-      req.user = await User.findById(decoded.id).select('-password');
-
-      next(); // move to next middleware/controller
-    } catch (error) {
-      console.error('Token verification failed:', error);
-      res.status(401).json({ message: 'Not authorized, token failed' });
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token, authorization denied" });
     }
-  }
 
-  if (!token) {
-    res.status(401).json({ message: 'Not authorized, no token' });
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 🔥 STRICT VALIDATION
+    if (!decoded.userId) {
+      return res.status(401).json({ message: "Invalid token payload" });
+    }
+
+    // ✅ STANDARD STRUCTURE
+    req.user = {
+      userId: decoded.userId,
+      role: decoded.role,
+      name: decoded.name,
+      email: decoded.email,
+    };
+
+    next();
+  } catch (err) {
+    console.error("Auth middleware error:", err.message);
+    return res.status(401).json({ message: "Token failed" });
   }
 };
