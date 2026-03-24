@@ -2,8 +2,8 @@
 body {
   margin: 0;
   font-family: "Poppins", "Segoe UI", sans-serif;
-  background-color: #0a0a0a;
-  color: #f5f5f5;
+  background-color: #f8f9fa; /* Light elegant background */
+  color: #2c3e50; /* Dark text for elegance */
 }
 
 /* === Navbar === */
@@ -46,16 +46,17 @@ body {
 .catalog-container {
   padding: clamp(80px, 15vw, 120px) clamp(20px, 8vw, 60px) clamp(40px, 8vw, 60px);
   min-height: 100vh;
-  background: radial-gradient(circle at top, #141414, #0a0a0a);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); /* Elegant light gradient */
 }
 
 .catalog-title {
   text-align: center;
-  color: #ffd700;
+  color: #d4af37; /* Elegant gold */
   font-size: 2rem;
   margin-bottom: 40px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  font-weight: 600;
 }
 
 /* === Filters & Search Bar === */
@@ -71,13 +72,14 @@ body {
 .search-bar {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 8px 16px;
+  background: #ffffff; /* White background */
+  border: 2px solid #e9ecef; /* Subtle border */
+  border-radius: 50px; /* Rounded for elegance */
+  padding: 12px 20px;
   width: 60%;
   max-width: 600px;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .search-bar input {
@@ -85,17 +87,18 @@ body {
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: #2c3e50; /* Dark text */
   font-size: 1rem;
+  font-weight: 400;
 }
 
 .search-bar:hover {
-  border-color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  border-color: #d4af37; /* Gold on hover */
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
 }
 
 .search-icon, .mic-icon {
-  color: #ffd700;
+  color: #d4af37; /* Gold icons */
   font-size: 18px;
 }
 
@@ -108,77 +111,79 @@ body {
 
 /* === Product Card === */
 .product-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 215, 0, 0.15);
-  border-radius: 16px;
+  background: #ffffff; /* White background */
+  border: 1px solid #e9ecef; /* Subtle border */
+  border-radius: 20px; /* More rounded for elegance */
   text-align: center;
-  padding: 1.5rem;
+  padding: 2rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Elegant shadow */
+  backdrop-filter: blur(10px);
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  border-color: #ffd700;
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.15);
+  transform: translateY(-10px);
+  border-color: #d4af37;
+  box-shadow: 0 12px 35px rgba(212, 175, 55, 0.15);
 }
 
 .product-card h3 {
-  color: #fff;
+  color: #2c3e50; /* Dark text */
   font-size: 1.1rem;
   margin: 1rem 0 0.3rem;
 }
 
 .brand,
 .category {
-  color: #aaa;
+  color: #6c757d; /* Gray for secondary text */
   font-size: 0.9rem;
 }
 
 .price {
-  color: #ffd700;
+  color: #d4af37; /* Gold for price */
   font-weight: bold;
   font-size: 1.1rem;
   margin-top: 0.5rem;
 }
 
 .in-stock {
-  color: #38e46e;
+  color: #28a745; /* Green */
 }
 
 .out-stock {
-  color: #e43e3e;
+  color: #dc3545; /* Red */
 }
 
 /* === Add to Cart Button === */
 .add-to-cart {
-  background: linear-gradient(90deg, #ffd700, #ffb400);
+  background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%); /* Gold gradient */
   border: none;
-  color: #0a0a0a;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  color: #ffffff; /* White text */
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px; /* Rounded */
   cursor: pointer;
   font-weight: 600;
-  margin-top: 0.6rem;
+  margin-top: 0.8rem;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .add-to-cart:hover {
-  background: #fff;
-  color: #0a0a0a;
+  background: linear-gradient(135deg, #b8860b 0%, #daa520 100%); /* Darker gold */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
 /* === Loading & Error === */
 .loading, .error, .empty-text {
   text-align: center;
-  color: #bbb;
+  color: #6c757d; /* Gray */
   margin-top: 50px;
   font-size: 1.1rem;
 }
 
 .loading p {
-  color: #ffd700;
+  color: #d4af37; /* Gold */
   animation: blink 1.2s infinite alternate;
 }
 
@@ -196,19 +201,28 @@ body {
 }
 
 .pagination-controls button {
-  background: #ffd700;
-  color: #0a0a0a;
+  background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+  color: #ffffff;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #b8860b 0%, #daa520 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
 .pagination-controls button:disabled {
-  background: #444;
-  color: #888;
+  background: #e9ecef;
+  color: #6c757d;
   cursor: not-allowed;
+  box-shadow: none;
 }
 /* === Catalog Container === */
 .catalog-container {
