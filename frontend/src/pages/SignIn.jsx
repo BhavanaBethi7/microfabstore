@@ -32,11 +32,15 @@ export default function SignIn() {
         localStorage.setItem("token", data.token);
         login(data.token);
 
-        setSuccessMessage("Login successful! Redirecting now...");
+        setSuccessMessage("Login successful ✔ Redirecting to dashboard...");
 
-        setTimeout(() => {
-          navigate("/profile");
-        }, 900);
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 2500);
+
+      setTimeout(() => {
+        navigate("/profile");
+      }, 900);
       } else {
         setError("Login failed: No token received");
       }

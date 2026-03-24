@@ -206,30 +206,40 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 300px;
+  min-width: 320px;
   max-width: 90vw;
-  padding: 16px 22px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.65);
-  border-radius: 14px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+  padding: 16px 26px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.25);
   color: #2c3e50;
   z-index: 5000;
   animation: toastPop 0.35s ease both;
 }
 
+.auth-toast:before {
+  content: "✔";
+  margin-right: 10px;
+  display: inline-block;
+  font-weight: 700;
+  color: #d4af37;
+}
+
 .auth-toast p {
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: 1rem;
 }
 
 @keyframes toastPop {
-  from {
+  0% {
     transform: translate(-50%, -45%) scale(0.95);
     opacity: 0;
   }
-  to {
+  100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }

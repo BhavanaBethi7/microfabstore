@@ -45,11 +45,15 @@ export default function SignUp() {
           password,
         });
 
-        setSuccessMessage("Account created successfully! Please login.");
+        setSuccessMessage("Account created successfully ✔ Please login.");
+
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 2500);
 
         setTimeout(() => {
           navigate("/login");
-        }, 1200);
+        }, 900);
 
 
       } catch (err) {
