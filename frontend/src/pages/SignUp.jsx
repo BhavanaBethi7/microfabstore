@@ -18,8 +18,9 @@ export default function SignUp() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,8 +45,12 @@ const [showConfirm, setShowConfirm] = useState(false);
           password,
         });
 
-        alert("Account created successfully 🎉");
-        navigate("/login");
+        setSuccessMessage("Account created successfully! Please login.");
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1200);
+
 
       } catch (err) {
         console.log(err.response?.data);
@@ -67,6 +72,12 @@ const [showConfirm, setShowConfirm] = useState(false);
   <div className="auth-page">
     <div className="auth-card">
       <h2 className="auth-title">Sign Up</h2>
+
+      {successMessage && (
+        <div className="auth-toast">
+          <p>{successMessage}</p>
+        </div>
+      )}
 
       <form className="auth-form-wrapper" onSubmit={handleSubmit}>
         <label className="auth-label">

@@ -8,6 +8,7 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -31,8 +32,11 @@ export default function SignIn() {
         localStorage.setItem("token", data.token);
         login(data.token);
 
-        // 🔥 use navigate instead of window.location
-        navigate("/profile");
+        setSuccessMessage("Login successful! Redirecting now...");
+
+        setTimeout(() => {
+          navigate("/profile");
+        }, 900);
       } else {
         setError("Login failed: No token received");
       }
@@ -89,6 +93,12 @@ export default function SignIn() {
             Don’t have an account? Sign Up
           </Link>
         </div>
+
+        {successMessage && (
+          <div className="auth-toast">
+            <p>{successMessage}</p>
+          </div>
+        )}
       </div>
     </>
   );
