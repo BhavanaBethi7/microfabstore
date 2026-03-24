@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const { hash, compare } = bcrypt;
-const JWT_SECRET = process.env.JWT_SECRET;
 
 // JWT authentication middleware
 const authMiddleware = (req, res, next) => {
@@ -56,7 +55,7 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.json({ token });
+    res.json({ token, user: { userId: user._id, role: user.role, name: user.name, email: user.email } });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -66,6 +65,11 @@ router.post("/login", async (req, res) => {
 // ✅ Admin Login Route
 router.post("/admin-login", async (req, res) => {
   const { email, password } = req.body;
+  if (!process.env.JWT_SECRET) {
+    console.error("JWT_SECRET is not set in environment variables");
+    return res.status(500).json({ msg: "Server configuration error" });
+  }
+
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "Invalid credentials" });
@@ -76,14 +80,14 @@ router.post("/admin-login", async (req, res) => {
 
     const token = jwt.sign(
       { userId: user._id, role: user.role, name: user.name, email: user.email },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.json({ token });
+    res.json({ token, user: { userId: user._id, role: user.role, name: user.name, email: user.email } });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error("Admin login error:", err);
+    res.status(500).json({ msg: "Server error", error: err.message });
   }
 });
 

@@ -25,13 +25,17 @@ app.use(
     origin: [
       "http://localhost:5173",          // Vite
       "http://localhost:5174",          // Vite (alternative port)
+      "http://localhost:5175",          // Vite extra port for your setup
       "http://localhost:3000",
       "https://microfabstore.vercel.app",
       "https://microfabstore.onrender.com",
+      "https://www.microfabstore.com",
+      "https://api.microfabstore.com",
     ],
     credentials: true,
   })
 );
+app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 // Middleware
 app.use(express.json());

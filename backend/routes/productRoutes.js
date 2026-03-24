@@ -1,6 +1,7 @@
 import express from "express";
 import Product from "../models/Product.js";
 import upload from "../middleware/upload.js";
+import { protect, adminOnly } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -75,11 +76,11 @@ router.post("/bulkAdd", async (req, res) => {
 });
 
 /* ============================
-   🆕 ADD PRODUCT WITH IMAGE
+   🆕 ADD PRODUCT WITH IMAGE (ADMIN ONLY)
 ============================ */
-router.post("/addWithImage", upload.single("image"), async (req, res) => {
+router.post("/addWithImage", protect, adminOnly, upload.single("image"), async (req, res) => {
   try {
-    const { name, category, description, price } = req.body;
+    const { name, category, description, price, stock } = req.body;
 
     if (!name || !category || !price || !req.file) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -92,12 +93,54 @@ router.post("/addWithImage", upload.single("image"), async (req, res) => {
       category,
       description,
       price: Number(price),
+      stock: Number(stock) || 0,
       image: imagePath,
     });
 
     res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ message: "Upload failed" });
+  }
+});
+
+/* ============================
+   ✏️ UPDATE PRODUCT (ADMIN ONLY)
+============================ */
+router.put("/:id", protect, adminOnly, upload.single("image"), async (req, res) => {
+  try {
+    const { name, category, description, price, stock } = req.body;
+    const updateData = { name, category, description, price: Number(price), stock: Number(stock) };
+
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ message: "Update failed" });
+  }
+});
+
+/* ============================
+   🗑️ DELETE PRODUCT (ADMIN ONLY)
+============================ */
+router.delete("/:id", protect, adminOnly, async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({ message: "Product deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Delete failed" });
   }
 });
 
