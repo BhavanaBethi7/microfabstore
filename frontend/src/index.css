@@ -1,3 +1,6 @@
+/* Import CSS Variables */
+@import './styles/variables.css';
+
 /* Reset & Base Styles */
 * {
   margin: 0;
@@ -6,9 +9,9 @@
 }
 
 html, body {
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  background-color: #f8fafc;
-  color: #222;
+  font-family: var(--font-primary);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
   height: 100%;
   width: 100%;
   scroll-behavior: smooth;

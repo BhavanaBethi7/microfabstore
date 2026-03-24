@@ -1,0 +1,30 @@
+:root {
+  /* Colors */
+  --bg-dark: #0d0d0d;
+  --bg-light: #f8f9fc;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #ffd700;
+  --text-light: #f5f5f5;
+  --text-dark: #1a1a1a;
+  --border-gold: rgba(212, 175, 55, 0.25);
+  --shadow-gold: rgba(255, 215, 0, 0.15);
+
+  /* Fonts */
+  --font-primary: 'Poppins', 'Segoe UI', -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  /* Responsive font scaling */
+  --fs-h1: clamp(1.8rem, 5vw, 3.5rem);
+  --fs-h2: clamp(1.3rem, 4vw, 2.2rem);
+  --fs-body: clamp(0.95rem, 2vw, 1.1rem);
+
+  /* Spacing */
+  --space-sm: clamp(0.5rem, 1vw, 1rem);
+  --space-md: clamp(1rem, 3vw, 2rem);
+  --space-lg: clamp(1.5rem, 5vw, 3rem);
+
+  /* Breakpoints */
+  --bp-mobile: 768px;
+  --bp-tablet: 1024px;
+  --bp-desktop: 1200px;
+}

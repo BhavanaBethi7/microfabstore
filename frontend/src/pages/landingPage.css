@@ -1,6 +1,6 @@
 /* === GLOBAL STYLES === */
 .landing-page {
-  width: 100vw; /* ensure full viewport width */
+  width: 100%; /* fixed: removed vw to prevent overflow */
   overflow-x: hidden;
   background: url('../assets/hero-bg.jpg') center center / cover no-repeat;
   min-height: 100vh;
@@ -23,13 +23,13 @@
   position: relative;
   text-align: center;
   z-index: 1;
-  width: 100vw;
+  width: 100%; /* fixed: removed vw to prevent overflow */
   overflow: hidden;
 }
 
 .hero-slide {
   height: 100vh;
-  width: 100vw;
+  width: 100%; /* fixed: removed vw to prevent overflow */
   background-size: cover;
   background-position: center;
   display: flex !important;

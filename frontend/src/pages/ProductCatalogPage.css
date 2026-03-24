@@ -44,7 +44,7 @@ body {
 
 /* === Catalog Section === */
 .catalog-container {
-  padding: 120px 60px 60px;
+  padding: clamp(80px, 15vw, 120px) clamp(20px, 8vw, 60px) clamp(40px, 8vw, 60px);
   min-height: 100vh;
   background: radial-gradient(circle at top, #141414, #0a0a0a);
 }
@@ -102,8 +102,8 @@ body {
 /* === Product Grid === */
 .product-grid {
   display: grid;
-  gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1rem, 3vw, 2.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
 }
 
 /* === Product Card === */
