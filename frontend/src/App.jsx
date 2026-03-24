@@ -12,6 +12,8 @@ import ProductDetailPage from "./pages/ProductDetailPage.jsx";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 
 // Auth
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -72,6 +74,9 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
       <Route
         path="*"
