@@ -58,6 +58,20 @@ img {
   display: block;
 }
 
+/* Page transition animation */
+.page-transition {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInPage 0.45s ease forwards;
+}
+
+@keyframes fadeInPage {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   h1 {

@@ -16,7 +16,7 @@ const CategoryCatalogPage = () => {
   return (
     <>
       <Navbar />
-      <div className="category-page">
+      <div className="category-page page-transition">
         <ImageSlider />
         <h1 className="title">Explore Semiconductor Categories</h1>
 

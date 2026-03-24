@@ -14,7 +14,7 @@ export default function CategoryPage() {
   return (
     <>
       <Navbar />
-      <div className="page-content">
+      <div className="page-content page-transition">
         <h1 className="page-title">Browse Categories</h1>
 
         <div className="category-grid">
